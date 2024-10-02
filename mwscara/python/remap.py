@@ -97,26 +97,26 @@ def m463OutRCAnDelay(self, **words):
 def m441open(self, **words):  # convert to world mode
     """ remap function which does the equivalent of M62, but via Python """
     try:
-        self.execute(f"M65 P1")
-        self.execute(f"M64 P0")
-        self.execute(f"M180 P10")
-        self.execute(f"M65 P0")
+        self.execute("M65 P1")
+        self.execute("M64 P0")
+        self.execute("M66 P1 L3 Q5")
+        self.execute("M65 P0")
     except InterpreterException as e:
         self.set_errormsg(e)
-        print("m462OutAnDelay %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
+        print("m441open %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
         yield  INTERP_ERROR
     yield INTERP_EXECUTE_FINISH
     return INTERP_OK
 
 def m440close(self, **words):  # convert to world mode
     try:
-        self.execute(f"M65 P0")
-        self.execute(f"M64 P1")  
-        self.execute(f"M180 P10")
-        self.execute(f"M65 P1")
+        self.execute("M65 P0")
+        self.execute("M64 P1")  # turn ON
+        self.execute("M66 P0 L3 Q5") # L3 turn ON Q5: timeout 5s
+        self.execute("M65 P1")
     except InterpreterException as e:
         self.set_errormsg(e)
-        print("m462OutAnDelay %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
+        print("m440close %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
         yield  INTERP_ERROR
     yield INTERP_EXECUTE_FINISH
     return INTERP_OK
