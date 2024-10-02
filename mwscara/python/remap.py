@@ -59,41 +59,6 @@ def m463OutRCAnDelay(self, **words):
     yield INTERP_EXECUTE_FINISH
     return INTERP_OK
 
-
-# def convertJoinMode(self):
-#     try:
-#         value = hal.get_value("motion.switchkins-type")
-#         if value != 1:
-#             SWITCHKINS_PIN = 3
-#             kinstype = 1
-#             #CoordinateNumber = self.params[5220]
-#             self.execute("M66 E0 L0")
-#             self.execute("M129")
-#             self.execute("M68 E%d Q%d" % (SWITCHKINS_PIN, kinstype))
-#             self.execute("M66 E0 L0")
-#         return True
-#     except InterpreterException as e:
-#         print("convertJoinMode %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
-#         return False
-#     except:
-#         return False
-
-# def convertWorldMode(self):
-#     try:
-#         value = hal.get_value("motion.switchkins-type")
-#         if value != 0:
-#             SWITCHKINS_PIN = 3
-#             kinstype = 0
-#             self.execute("M66 E0 L0")
-#             self.execute("M128")
-#             self.execute("M68 E%d Q%d" % (SWITCHKINS_PIN, kinstype))
-#             self.execute("M66 E0 L0")
-#         return True
-#     except InterpreterException as e:
-#         print("convertWorldMode %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
-#         return False
-#     except:
-#         return False
 def m441open(self, **words):  # convert to world mode
     """ remap function which does the equivalent of M62, but via Python """
     try:
@@ -113,6 +78,8 @@ def m440close(self, **words):  # convert to world mode
         self.execute("M65 P0")
         self.execute("M64 P1")  # turn ON
         self.execute("M66 P0 L4 Q5") # L3 turn ON L4: turnOFF Q5: timeout 5s
+        if self.params[5399] == 0 :
+            self.set_errormsg("m440close remap error:")
         self.execute("M65 P1")
     except InterpreterException as e:
         self.set_errormsg(e)
@@ -230,7 +197,7 @@ def g04_move_world(self, **words):
         _type_: _description_
     """
 
-    pos = {'x': "", 'y': "", 'z': "", 'c': "",'f': ""}
+    pos = {}
     have_yield = False
     prev_mode = hal.get_value("motion.switchkins-type")
     if prev_mode != 0:
@@ -246,7 +213,10 @@ def g04_move_world(self, **words):
     #for name in cmd:   
     for name in words:
         pos[name] = " {}{:.2f}".format(name, float(words[name]))
-    gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
+    gcodecmd = "G53 "
+    for i in pos:
+        gcodecmd = gcodecmd + i
+    #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
     try:
         self.execute(gcodecmd)
         print("G0.4 {} {}".format(time.time(),gcodecmd))
