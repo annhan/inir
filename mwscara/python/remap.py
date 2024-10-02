@@ -213,7 +213,7 @@ def g04_move_world(self, **words):
     #for name in cmd:   
     for name in words:
         pos[name] = " {}{:.2f}".format(name, float(words[name]))
-    gcodecmd = "G53 "
+    gcodecmd =  f"G53 {typeGcode}"
     for i in pos:
         gcodecmd = gcodecmd + i
     #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
