@@ -5,7 +5,7 @@ import time
 import hal
 from interpreter import *
 from stdglue import *
-from mwork_util import scarakinematicInver
+
 
 
 throw_exceptions = 1
@@ -130,60 +130,6 @@ def ReturnERROR():
     print("Before return INTERP_ERROR")
     yield  INTERP_ERROR
 
-#
-# Move Joint in world mode
-# Toa do nhap vao la toa do worldmode
-# ex: Move to X50 Y50 in world mode
-# my code will caculater invert kinematic to get joint pos
-# After conver mode to joint mode, move and return world mode
-## https://github.com/LinuxCNC/linuxcnc/blob/master/src/emc/nml_intf/canon.hh#L245
-# Khong ne dung execute ma dung Thay vì self.execute("G53 G0..."), hãy thử sử dụng emccanon.STRAIGHT_TRAVERSE()
-def g01_move_joint_by_world(self, **words):
-    pos = {'x': 0, 'y': 0, 'z': 0, 'c': 0}
-
-    # Get POS    
-    feed_rate = ""
-    type_Gcode = "G0"
-    have_yield = False
-    if 'f' in words:
-        type_Gcode = "G1"
-        feed_rate = f"f{words['f']}"      
-    cmd = {'x', 'y', 'z', 'c'}
-    for name in cmd:
-        if name in words:
-            pos[name] = float(words[name])
-        else:
-            prev_mode = hal.get_value("motion.switchkins-type")
-            if prev_mode !=0: # CHUYEN QUA TOA DO WORK DE LAY VI TRI
-                yield INTERP_EXECUTE_FINISH 
-                self.execute("M438")
-                yield INTERP_EXECUTE_FINISH   
-                have_yield = True
-            pos[name] = float(hal.get_value(f'axis.{name}.pos-cmd'))
-            
-    # Chuyen QUA JOINT MODE  
-     
-    prev_mode = hal.get_value("motion.switchkins-type")
-    if prev_mode != 1:
-        yield INTERP_EXECUTE_FINISH 
-        self.execute("M439")
-        yield INTERP_EXECUTE_FINISH     
-        have_yield = True
-    #Tinh TOAN KINEMATIC 
-          
-    anglepos = scarakinematicInver(pos)
-    gcodecmd = "G53 {} x{:.2f} y{:.2f} z{:.2f} c{:.2f} {}".format(type_Gcode, anglepos[0], anglepos[1], anglepos[2], anglepos[3], feed_rate)
-    # THuc hien gcode
-    try:    
-        self.execute(gcodecmd)
-        #yield INTERP_EXECUTE_FINISH 
-        print("g0.1 {} {}".format(time.time(),gcodecmd))
-        yield INTERP_OK
-
-    except Exception as e:
-        print("G01 ERROR {}".format(e))
-        yield INTERP_ERROR
-
 
 def g04_move_world(self, **words): 
     """ # Move  in world mode
@@ -196,17 +142,13 @@ def g04_move_world(self, **words):
     Yields:
         _type_: _description_
     """
-
     pos = {}
-    have_yield = False
     prev_mode = hal.get_value("motion.switchkins-type")
     if prev_mode != 0:
         have_yield = True
         yield INTERP_EXECUTE_FINISH 
         self.execute("M438")
         yield INTERP_EXECUTE_FINISH 
-        
-    cmd = ['x','y','z','c','f']
     typeGcode = "G0"
     if 'f' in words:
         typeGcode = "G1"
@@ -216,71 +158,12 @@ def g04_move_world(self, **words):
     gcodecmd =  f"G53 {typeGcode} "
     for i in pos:
         gcodecmd = gcodecmd + pos[i]
-    #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
     try:
         print("G0.4 {} {}".format(time.time(),gcodecmd))
         self.execute(gcodecmd)
-        
         yield INTERP_OK
     except:
         yield INTERP_ERROR
-
-
-def g01_move_joint_by_world_emccannon(self, **words):
-    pos = {'x': 0, 'y': 0, 'z': 0, 'c': 0}
-
-    # Get POS    
-    feed_rate = ""
-    type_Gcode = "G0"
-    have_yield = False
-    if 'f' in words:
-        type_Gcode = "G1"
-        feed_rate = f"f{words['f']}"      
-    cmd = {'x', 'y', 'z', 'c'}
-    for name in cmd:
-        if name in words:
-            pos[name] = float(words[name])
-        else:
-            prev_mode = hal.get_value("motion.switchkins-type")
-            if prev_mode !=0: # CHUYEN QUA TOA DO WORK DE LAY VI TRI
-                yield INTERP_EXECUTE_FINISH 
-                self.execute("M438")
-                yield INTERP_EXECUTE_FINISH   
-                have_yield = True
-            pos[name] = float(hal.get_value(f'axis.{name}.pos-cmd'))
-            
-    # Chuyen QUA JOINT MODE  
-     
-    prev_mode = hal.get_value("motion.switchkins-type")
-    if prev_mode != 1:
-        yield INTERP_EXECUTE_FINISH 
-        self.execute("M439")
-        yield INTERP_EXECUTE_FINISH     
-        have_yield = True
-    #Tinh TOAN KINEMATIC 
-          
-    anglepos = scarakinematicInver(pos)
-    gcodecmd = "G53 {} x{:.2f} y{:.2f} z{:.2f} c{:.2f} {}".format(type_Gcode, anglepos[0], anglepos[1], anglepos[2], anglepos[3], feed_rate)
-    # THuc hien gcode
-    try: 
-        self.x_init = round(emccanon.GET_EXTERNAL_POSITION_X(), 3)
-        self.y_init = round(emccanon.GET_EXTERNAL_POSITION_Y(), 3)
-        self.z_init = round(emccanon.GET_EXTERNAL_POSITION_Z(), 3)
-        self.a_init = round(emccanon.GET_EXTERNAL_POSITION_A(), 3)
-        if type_Gcode == 'G0':
-            emccanon.STRAIGHT_TRAVERSE(2, anglepos[0], anglepos[1], anglepos[2], self.a_init, 0, anglepos[3], 0, 0, 0)
-        else:
-            emccanon.SET_FEED_MODE(0, 0)
-            emccanon.SET_FEED_RATE(float(feed_rate))
-            emccanon.STRAIGHT_FEED(2, anglepos[0], anglepos[1], anglepos[2], self.a_init, 0, anglepos[3], 0, 0, 0)        
-        #yield INTERP_EXECUTE_FINISH 
-        print("g0.1 {} {}".format(time.time(),gcodecmd))
-        yield INTERP_OK
-        
-    except Exception as e:
-        print("G01 ERROR {}".format(e))
-        yield  INTERP_ERROR
-    return INTERP_OK
 
 def g04_move_world_emccannon(self, **words): 
     """ # Move  in world mode
@@ -333,7 +216,7 @@ def g04_move_world_emccannon(self, **words):
 # Or with F: G0.2 X20 Y30 F1000
 #
 def g02_move_joint(self, **words):
-    pos = {'x': "", 'y': "", 'z': "", 'c': "", 'f':""}
+    pos = {}
     prev_mode = hal.get_value("motion.switchkins-type")
     if prev_mode != 1:
         yield INTERP_EXECUTE_FINISH 
@@ -346,8 +229,10 @@ def g02_move_joint(self, **words):
         
     for name in words:
         pos[name] = " {}{:.2f}".format(name, float(words[name]))  
-        
-    gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])    
+    gcodecmd =  f"G53 {typeGcode} "
+    for i in pos:
+        gcodecmd = gcodecmd + pos[i] 
+    #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])    
     # THuc hien gcode
     try:    
         self.execute(gcodecmd)

@@ -3,10 +3,9 @@ loadrt [EMCMOT]EMCMOT   servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]
 loadrt hostmot2
 
 loadrt hm2_eth board_ip="10.10.10.10" config=" num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_0=ENC_ZH%24meMOV%1f ssi_chan_1=J1_ENC%13s ssi_chan_2=J2_ENC%13s ssi_chan_3=J3_ENC%13s  ssi_chan_4=J4_ENC%13s enable_raw"
-#loadrt hm2_eth board_ip="10.10.10.10" config="firmware=main_16_11_2023.bit  num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_2=ENC_ZH%24meMOV%1f ssi_chan_0=J1_ENC%13s ssi_chan_1=J2_ENC%13s ssi_chan_3=J3_ENC%13s enable_raw"
 loadrt pid names=pid.x,pid.y,pid.z,pid.c,pid.a
-# loadrt orient count=1  
 
+# loadrt orient count=1  
 # loadrt estop_latch count=1
 
 setp   hm2_7i80.0.watchdog.timeout_ns 20000000
@@ -43,5 +42,5 @@ setp scaramwkins.D6 [ROBOTINFOR]D6
 
 
 # create signals for tool loading loopback
-net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
-net tool-change-loop iocontrol.0.tool-change iocontrol.0.tool-changed
+#net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
+#net tool-change-loop iocontrol.0.tool-change iocontrol.0.tool-changed

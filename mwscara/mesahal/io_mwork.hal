@@ -1,5 +1,3 @@
-
-
 ########################################$$$$$$$$$$$
 ## IO 00 - 11 : 6 Stepprr
 ## IO 14- 15: 4 OUTPUT
@@ -38,6 +36,13 @@ setp hm2_[HOSTMOT2](BOARD).0.gpio.015.is_output true
 net y-amp-enable => hm2_[HOSTMOT2](BOARD).0.gpio.014.out
 net z-amp-enable => hm2_[HOSTMOT2](BOARD).0.gpio.015.out
 
+# amp control
+net xflt joint.0.amp-fault-in
+net yflt joint.1.amp-fault-in
+net zflt joint.2.amp-fault-in
+net cflt joint.3.amp-fault-in
+net aflt joint.4.amp-fault-in
+
 
 #################
 ## IO OUTPUT  ###
@@ -72,19 +77,7 @@ setp hm2_[HOSTMOT2](BOARD).0.gpio.047.is_output true
 
 net estop-loop iocontrol.0.user-enable-out iocontrol.0.emc-enable-in
 
-###########################################################
-## IO HOME
-###########################################################
 
-#net homeswitchesA <= hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
-#net homeswitchesA => joint.4.home-sw-in
-
-
-# amp control
-net xflt joint.0.amp-fault-in
-net yflt joint.1.amp-fault-in
-net zflt joint.2.amp-fault-in
-net aflt joint.3.amp-fault-in
 
 #####################################
 ## AIO 
@@ -100,6 +93,7 @@ net :kinstype-select <= motion.analog-out-03 => motion.switchkins-type
 ## OUT00 GRIP OPEN
 ## OUT01 GRIP CLOSE
 ############################################
+
 # GRIPPER IN PUT
 net gripperlm1 motion.digital-in-00 => hm2_[HOSTMOT2](BOARD).0.gpio.032.in
 net gripperlm2 motion.digital-in-01 => hm2_[HOSTMOT2](BOARD).0.gpio.033.in
@@ -117,12 +111,11 @@ net pinIn7 motion.digital-in-07 => hm2_[HOSTMOT2](BOARD).0.gpio.039.in
 net gripperclose motion.digital-out-00 => hm2_[HOSTMOT2](BOARD).0.gpio.041.out
 net gripperopen motion.digital-out-01 => hm2_[HOSTMOT2](BOARD).0.gpio.042.out
 # 
-#net pinOut2 motion.digital-out-02 => hm2_[HOSTMOT2](BOARD).0.gpio.042.out
-#net pinOut3 motion.digital-out-03 => hm2_[HOSTMOT2](BOARD).0.gpio.043.out
-#net pinOut4 motion.digital-out-04 => hm2_[HOSTMOT2](BOARD).0.gpio.044.out
-#net pinOut5 motion.digital-out-05 => hm2_[HOSTMOT2](BOARD).0.gpio.045.out
-#net pinOut6 motion.digital-out-06 => hm2_[HOSTMOT2](BOARD).0.gpio.046.out
-#net pinOut7 motion.digital-out-07 => hm2_[HOSTMOT2](BOARD).0.gpio.047.out
+net pinOut3 motion.digital-out-03 => hm2_[HOSTMOT2](BOARD).0.gpio.043.out
+net pinOut4 motion.digital-out-04 => hm2_[HOSTMOT2](BOARD).0.gpio.044.out
+net pinOut5 motion.digital-out-05 => hm2_[HOSTMOT2](BOARD).0.gpio.045.out
+net pinOut6 motion.digital-out-06 => hm2_[HOSTMOT2](BOARD).0.gpio.046.out
+net pinOut7 motion.digital-out-07 => hm2_[HOSTMOT2](BOARD).0.gpio.047.out
 
 # net cyclestart <= hm2_[HOSTMOT2](BOARD).0.gpio.048.in => halui.program.run
 
