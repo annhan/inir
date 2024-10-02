@@ -218,8 +218,9 @@ def g04_move_world(self, **words):
         gcodecmd = gcodecmd + i
     #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
     try:
-        self.execute(gcodecmd)
         print("G0.4 {} {}".format(time.time(),gcodecmd))
+        self.execute(gcodecmd)
+        
         yield INTERP_OK
     except:
         yield INTERP_ERROR
