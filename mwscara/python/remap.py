@@ -99,7 +99,7 @@ def m441open(self, **words):  # convert to world mode
     try:
         self.execute("M65 P1")
         self.execute("M64 P0")
-        self.execute("M66 P1 L3 Q5")
+        self.execute("M66 P1 L4 Q5")
         self.execute("M65 P0")
     except InterpreterException as e:
         self.set_errormsg(e)
@@ -112,7 +112,7 @@ def m440close(self, **words):  # convert to world mode
     try:
         self.execute("M65 P0")
         self.execute("M64 P1")  # turn ON
-        self.execute("M66 P0 L3 Q5") # L3 turn ON Q5: timeout 5s
+        self.execute("M66 P0 L4 Q5") # L3 turn ON L4: turnOFF Q5: timeout 5s
         self.execute("M65 P1")
     except InterpreterException as e:
         self.set_errormsg(e)
