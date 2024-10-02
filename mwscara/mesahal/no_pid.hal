@@ -148,7 +148,7 @@ setp hm2_7i80.0.stepgen.02.maxvel          [JOINT_2]STEPGEN_MAX_VEL
 setp hm2_7i80.0.stepgen.02.maxaccel        [JOINT_2]STEPGEN_MAX_ACC
 setp hm2_7i80.0.stepgen.02.step_type       0
 setp hm2_7i80.0.stepgen.02.control-type     1
-setp   pid.xz.error-previous-target  true
+#setp   pid.xz.error-previous-target  true
 
 
 
