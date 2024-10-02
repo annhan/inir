@@ -95,31 +95,32 @@ def m463OutRCAnDelay(self, **words):
 #     except:
 #         return False
 def m441open(self, **words):  # convert to world mode
-    # Chu y muon thay doi switchkins thi can thuc hien het lenh trong bo dem
-    # nên cần tạo 1 gcode để thực hiện việc chờ hết bộ đệm trước khi thực hiện lệnh switchkind
-    value = hal.get_value("motion.switchkins-type")
-    if value != 0:
-        SWITCHKINS_PIN = 3
-        kinstype = 0     
-        #self.execute("M66 E0 L0")
-        self.execute("M128")
-        self.execute("M68 E%d Q%d" % (SWITCHKINS_PIN, kinstype))
-        self.execute("M66 E0 L0")
-    #yield INTERP_OK
+    """ remap function which does the equivalent of M62, but via Python """
+    try:
+        self.execute(f"M65 P1")
+        self.execute(f"M64 P0")
+        self.execute(f"M180 P10")
+        self.execute(f"M65 P0")
+    except InterpreterException as e:
+        self.set_errormsg(e)
+        print("m462OutAnDelay %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
+        yield  INTERP_ERROR
+    yield INTERP_EXECUTE_FINISH
     return INTERP_OK
+
 def m440close(self, **words):  # convert to world mode
-    # Chu y muon thay doi switchkins thi can thuc hien het lenh trong bo dem
-    # nên cần tạo 1 gcode để thực hiện việc chờ hết bộ đệm trước khi thực hiện lệnh switchkind
-    value = hal.get_value("motion.switchkins-type")
-    if value != 0:
-        SWITCHKINS_PIN = 3
-        kinstype = 0     
-        #self.execute("M66 E0 L0")
-        self.execute("M128")
-        self.execute("M68 E%d Q%d" % (SWITCHKINS_PIN, kinstype))
-        self.execute("M66 E0 L0")
-    #yield INTERP_OK
+    try:
+        self.execute(f"M65 P0")
+        self.execute(f"M64 P1")  
+        self.execute(f"M180 P10")
+        self.execute(f"M65 P1")
+    except InterpreterException as e:
+        self.set_errormsg(e)
+        print("m462OutAnDelay %d: '%s' - %s" % (e.line_number,e.line_text, e.error_message))
+        yield  INTERP_ERROR
+    yield INTERP_EXECUTE_FINISH
     return INTERP_OK
+
 def m438remap(self, **words):  # convert to world mode
     # Chu y muon thay doi switchkins thi can thuc hien het lenh trong bo dem
     # nên cần tạo 1 gcode để thực hiện việc chờ hết bộ đệm trước khi thực hiện lệnh switchkind

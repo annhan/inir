@@ -95,9 +95,14 @@ net :kinstype-select <= motion.analog-out-03 => motion.switchkins-type
 #############################################
 ## DIO 
 ## num_dio = 5 là 5 INPUT và 5 OUTPUT
+## IN00 - LIMIT + GRIP
+## IN01 LIMIT - GRIP
+## OUT00 GRIP OPEN
+## OUT01 GRIP CLOSE
 ############################################
 net pinIn0 motion.digital-in-00 => hm2_[HOSTMOT2](BOARD).0.gpio.032.in
 net pinIn1 motion.digital-in-01 => hm2_[HOSTMOT2](BOARD).0.gpio.033.in
+
 net pinIn2 motion.digital-in-02 => hm2_[HOSTMOT2](BOARD).0.gpio.034.in
 net pinIn3 motion.digital-in-03 => hm2_[HOSTMOT2](BOARD).0.gpio.035.in
 net pinIn4 motion.digital-in-04 => hm2_[HOSTMOT2](BOARD).0.gpio.036.in
@@ -105,8 +110,9 @@ net pinIn5 motion.digital-in-05 => hm2_[HOSTMOT2](BOARD).0.gpio.037.in
 net pinIn6 motion.digital-in-06 => hm2_[HOSTMOT2](BOARD).0.gpio.038.in
 net pinIn7 motion.digital-in-07 => hm2_[HOSTMOT2](BOARD).0.gpio.039.in
 
-#net pinOut0 motion.digital-out-00 => hm2_[HOSTMOT2](BOARD).0.gpio.040.out
-#net pinOut1 motion.digital-out-01 => hm2_[HOSTMOT2](BOARD).0.gpio.041.out
+net pinOut0 motion.digital-out-00 => hm2_[HOSTMOT2](BOARD).0.gpio.041.out
+net pinOut1 motion.digital-out-01 => hm2_[HOSTMOT2](BOARD).0.gpio.042.out
+
 #net pinOut2 motion.digital-out-02 => hm2_[HOSTMOT2](BOARD).0.gpio.042.out
 #net pinOut3 motion.digital-out-03 => hm2_[HOSTMOT2](BOARD).0.gpio.043.out
 #net pinOut4 motion.digital-out-04 => hm2_[HOSTMOT2](BOARD).0.gpio.044.out
