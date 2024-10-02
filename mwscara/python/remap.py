@@ -213,9 +213,9 @@ def g04_move_world(self, **words):
     #for name in cmd:   
     for name in words:
         pos[name] = " {}{:.2f}".format(name, float(words[name]))
-    gcodecmd =  f"G53 {typeGcode}"
+    gcodecmd =  f"G53 {typeGcode} "
     for i in pos:
-        gcodecmd = gcodecmd + i
+        gcodecmd = gcodecmd + pos['i']
     #gcodecmd = "G53 {}{}{}{}{}{} ".format(typeGcode, pos['x'], pos['y'], pos['z'], pos['c'], pos['f'])
     try:
         print("G0.4 {} {}".format(time.time(),gcodecmd))
