@@ -1,0 +1,49 @@
+# Halshow settings
+# This file is generated automatically.
+wm geometry . 1024x514+761+79
+placeFrames 0.4654150197628458
+set ::ratio 0.4654150197628458
+set ::old_w_leftf 160
+set ::watchlist {
+    pin+hm2_7i80.0.dpll.phase-error-us
+    param+hm2_7i80.0.read.tmax
+    param+hm2_7i80.0.write.tmax
+    pin+hm2_7i80.0.packet-error-total
+    pin+kinstype.is-0
+    pin+kinstype.is-1
+    pin+kinstype.is-2
+    pin+hm2_7i80.0.read.time
+    pin+motion.digital-out-00
+    pin+hm2_7i80.0.gpio.032.in
+    pin+hm2_7i80.0.gpio.033.in
+    pin+hm2_7i80.0.gpio.034.in
+    pin+hm2_7i80.0.gpio.035.in
+    pin+hm2_7i80.0.gpio.036.in
+    pin+hm2_7i80.0.gpio.037.in
+    pin+hm2_7i80.0.gpio.038.in
+    pin+hm2_7i80.0.gpio.039.in
+    pin+hm2_7i80.0.gpio.042.out
+    pin+hm2_7i80.0.gpio.043.out
+    pin+hm2_7i80.0.gpio.044.out
+    pin+hm2_7i80.0.gpio.046.out
+    pin+hm2_7i80.0.gpio.045.out
+    pin+hm2_7i80.0.gpio.047.out
+    pin+hm2_7i80.0.ssi.01.J1_ENC
+    pin+hm2_7i80.0.ssi.02.J2_ENC
+    pin+hm2_7i80.0.ssi.03.J3_ENC
+    pin+hm2_7i80.0.ssi.04.J4_ENC
+    pin+hm2_7i80.0.gpio.040.out
+    pin+hm2_7i80.0.gpio.041.out
+    pin+scaramwkins.D1
+    pin+scaramwkins.D2
+    pin+joint.2.motor-pos-cmd
+    pin+joint.2.neg-hard-limit
+    pin+joint.2.motor-pos-fb
+}
+set ::workmode watchhal
+set ::watchInterval 100
+set ::col1_width 100
+set ::ffmts 
+set ::ifmts 
+set ::alwaysOnTop 0
+set ::autoSaveWatchlist 1

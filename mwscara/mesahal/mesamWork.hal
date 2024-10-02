@@ -1,0 +1,47 @@
+loadrt [KINS]KINEMATICS
+loadrt [EMCMOT]EMCMOT   servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS  num_dio=8 num_aio=4
+loadrt hostmot2
+
+loadrt hm2_eth board_ip="10.10.10.10" config=" num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_0=ENC_ZH%24meMOV%1f ssi_chan_1=J1_ENC%13s ssi_chan_2=J2_ENC%13s ssi_chan_3=J3_ENC%13s  ssi_chan_4=J4_ENC%13s enable_raw"
+#loadrt hm2_eth board_ip="10.10.10.10" config="firmware=main_16_11_2023.bit  num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_2=ENC_ZH%24meMOV%1f ssi_chan_0=J1_ENC%13s ssi_chan_1=J2_ENC%13s ssi_chan_3=J3_ENC%13s enable_raw"
+loadrt pid names=pid.x,pid.y,pid.z,pid.c,pid.a
+# loadrt orient count=1  
+
+# loadrt estop_latch count=1
+
+setp   hm2_7i80.0.watchdog.timeout_ns 20000000
+
+setp hm2_7i80.0.dpll.01.timer-us -150
+setp hm2_7i80.0.dpll.02.timer-us -250
+
+setp hm2_7i80.0.stepgen.timer-number 1
+
+setp hm2_7i80.0.packet-read-timeout 90
+setp hm2_7i80.0.packet-error-limit 100
+
+
+addf hm2_7i80.0.read          servo-thread  # read first
+addf motion-command-handler   servo-thread
+addf motion-controller        servo-thread
+addf pid.x.do-pid-calcs       servo-thread  # PID
+addf pid.y.do-pid-calcs       servo-thread
+addf pid.z.do-pid-calcs       servo-thread
+addf pid.c.do-pid-calcs       servo-thread
+addf pid.a.do-pid-calcs       servo-thread
+# addf estop-latch.0 servo-thread
+# addf orient.0           	  servo-thread
+addf hm2_7i80.0.write         servo-thread  # Last write
+
+
+
+setp scaramwkins.D1 [ROBOTINFOR]D1
+setp scaramwkins.D2 [ROBOTINFOR]D2
+setp scaramwkins.D3 [ROBOTINFOR]D3
+setp scaramwkins.D4 [ROBOTINFOR]D4
+setp scaramwkins.D5 [ROBOTINFOR]D5
+setp scaramwkins.D6 [ROBOTINFOR]D6
+
+
+# create signals for tool loading loopback
+net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
+net tool-change-loop iocontrol.0.tool-change iocontrol.0.tool-changed

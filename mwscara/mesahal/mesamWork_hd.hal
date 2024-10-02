@@ -1,0 +1,135 @@
+loadrt [KINS]KINEMATICS
+loadrt [EMCMOT]EMCMOT   servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS  num_dio=2 num_aio=4
+loadrt hostmot2
+
+loadrt hm2_eth board_ip="10.10.10.10" config=" enable_raw"
+
+loadrt pid names=pid.x,pid.y,pid.z,pid.c
+# loadrt orient count=1  
+
+#loadrt estop_latch count=1
+
+setp   hm2_7i80.0.watchdog.timeout_ns 20000000
+
+setp hm2_7i80.0.dpll.01.timer-us -150
+setp hm2_7i80.0.dpll.02.timer-us -250
+
+setp hm2_7i80.0.stepgen.timer-number 1
+
+setp hm2_7i80.0.packet-read-timeout 90
+setp hm2_7i80.0.packet-error-limit 100
+
+
+addf hm2_7i80.0.read          servo-thread  # read first
+addf motion-command-handler   servo-thread
+addf motion-controller        servo-thread
+addf pid.x.do-pid-calcs       servo-thread  # PID
+addf pid.y.do-pid-calcs       servo-thread
+addf pid.z.do-pid-calcs       servo-thread
+addf pid.c.do-pid-calcs       servo-thread
+# addf estop-latch.0 servo-thread
+# addf orient.0           	  servo-thread
+addf hm2_7i80.0.write         servo-thread  # Last write
+
+
+
+setp scarakins.D1 300.0
+setp scarakins.D2 330.0  
+setp scarakins.D3 118.0
+setp scarakins.D4 220.0
+setp scarakins.D5 50.0
+setp scarakins.D6 0.0
+
+
+# create signals for tool loading loopback
+net tool-prep-loop iocontrol.0.tool-prepare iocontrol.0.tool-prepared
+net tool-change-loop iocontrol.0.tool-change iocontrol.0.tool-changed
+
+
+###############################
+## INPUT PORT 3
+################################
+setp hm2_[HOSTMOT2](BOARD).0.gpio.014.is_output true  
+setp hm2_[HOSTMOT2](BOARD).0.gpio.020.is_output true  
+setp hm2_[HOSTMOT2](BOARD).0.gpio.021.is_output true  
+setp hm2_[HOSTMOT2](BOARD).0.gpio.022.is_output true  
+setp hm2_[HOSTMOT2](BOARD).0.gpio.023.is_output true  
+
+
+############################################
+## SET invert_output
+#########################################
+setp hm2_[HOSTMOT2](BOARD).0.gpio.000.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.001.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.002.invert_output true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.003.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.004.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.005.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.006.invert_output true
+#setp hm2_[HOSTMOT2](BOARD).0.gpio.007.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.008.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.009.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.010.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.011.invert_output true
+
+setp hm2_[HOSTMOT2](BOARD).0.gpio.012.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.013.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.014.invert_output true
+setp hm2_[HOSTMOT2](BOARD).0.gpio.015.invert_output true
+
+
+#####################################################
+## OUTPUT ENABLE pin
+#######################################################
+net z-amp-enable => hm2_[HOSTMOT2](BOARD).0.gpio.014.out
+
+#########################################################
+## IO EMG 
+#########################################################
+
+# net estop-loopout iocontrol.0.emc-enable-in <= estop-latch.0.ok-out
+# net estop-loopin iocontrol.0.user-enable-out => estop-latch.0.ok-in
+# net estop-reset iocontrol.0.user-request-enable => estop-latch.0.reset
+# net remote-estop estop-latch.0.fault-in <= hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
+
+# Remove ESTOP BUTTON
+net estop-loop iocontrol.0.user-enable-out iocontrol.0.emc-enable-in
+
+###########################################################
+## IO HOME
+###########################################################
+
+net homeswitchesA <= hm2_[HOSTMOT2](BOARD).0.gpio.016.in_not
+net homeswitchesA => joint.4.home-sw-in
+
+
+# amp control
+net xflt joint.0.amp-fault-in
+net yflt joint.1.amp-fault-in
+net zflt joint.2.amp-fault-in
+net aflt joint.3.amp-fault-in
+
+#####################################
+## AIO 
+######################################
+
+net :kinstype-select <= motion.analog-out-03 => motion.switchkins-type
+
+#############################################
+## DIO 
+## num_dio = 5 là 5 INPUT và 5 OUTPUT
+############################################
+
+net pinOut1 motion.digital-out-01 => hm2_[HOSTMOT2](BOARD).0.gpio.036.out
+net pinOut0 motion.digital-out-00 => hm2_[HOSTMOT2](BOARD).0.gpio.037.out
+# net pinOut2 motion.digital-out-02 => hm2_[HOSTMOT2](BOARD).0.gpio.038.out
+# net pinOut3 motion.digital-out-03 => hm2_[HOSTMOT2](BOARD).0.gpio.039.out
+
+
+# net cyclestart <= hm2_[HOSTMOT2](BOARD).0.gpio.048.in => halui.program.run
+
+net pinIn0 <= hm2_[HOSTMOT2](BOARD).0.gpio.018.in_not => motion.digital-in-00
+net pinIn1 <= hm2_[HOSTMOT2](BOARD).0.gpio.019.in => motion.digital-in-01
+
+
+################################################
