@@ -9,7 +9,7 @@ setp hm2_7i80.0.ssi.00.timer-number 2
 # setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4095
 # setp hm2_7i80.0.ssi.00.ENC_X.scale -32.25
 
-setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4096
+#setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4096
 setp hm2_7i80.0.ssi.00.ENC_X.scale 32.935
 net x-pos-enc  hm2_7i80.0.ssi.00.ENC_X.position
 
