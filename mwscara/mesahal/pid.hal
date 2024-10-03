@@ -50,8 +50,9 @@ net x-amp-enable joint.0.amp-enable-out => hm2_[HOSTMOT2](BOARD).0.stepgen.00.en
 setp hm2_7i80.0.ssi.00.frequency-khz  175
 setp hm2_7i80.0.ssi.00.timer-number 2
 setp hm2_7i80.0.ssi.00.ENC_ZH.counts-per-rev 8192
-setp hm2_7i80.0.ssi.00.ENC_ZH.scale 915
-net x-pos-enc  hm2_7i80.0.ssi.02.ENC_ZH.position
+setp hm2_7i80.0.ssi.00.ENC_ZH.scale 910
+#10 -> 1638
+net x-pos-enc  hm2_7i80.0.ssi.00.ENC_ZH.position
 
 net x-pos-cmd   => joint.0.motor-pos-fb   # Need PID
 #net x-pos-enc  => joint.0.motor-pos-fb  # Need PID
