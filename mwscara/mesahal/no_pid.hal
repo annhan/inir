@@ -4,23 +4,23 @@ addf sum2.0 servo-thread
 
 addf ddt.0 servo-thread
 addf ddt.1 servo-thread
-setp hm2_7i80.0.ssi.00.frequency-khz  500
-setp hm2_7i80.0.ssi.00.timer-number 3
-# setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4095
-# setp hm2_7i80.0.ssi.00.ENC_X.scale -32.25
+setp hm2_7i80.0.ssi.01.frequency-khz  500
+setp hm2_7i80.0.ssi.01.timer-number 3
+setp hm2_7i80.0.ssi.01.ENC_X.counts-per-rev 4096
+setp hm2_7i80.0.ssi.01.ENC_X.scale 32.935
 
-setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4096
-setp hm2_7i80.0.ssi.00.ENC_X.scale 32.935
+setp hm2_7i80.0.ssi.00.frequency-khz 250  
+setp hm2_7i80.0.ssi.00.timer-number 2
+setp hm2_7i80.0.ssi.00.J1_ENC-scalemax 180  
 
-
+net j0-pos-enc  hm2_7i80.0.ssi.00.J1_ENC
+net j1-pos-enc  hm2_7i80.0.ssi.01.ENC_X.position
 
 setp hm2_7i80.0.ssi.02.frequency-khz 250  
 setp hm2_7i80.0.ssi.02.timer-number 2
 setp hm2_7i80.0.ssi.02.J2_ENC-scalemax 180
 
-setp hm2_7i80.0.ssi.01.frequency-khz 250  
-setp hm2_7i80.0.ssi.01.timer-number 2
-setp hm2_7i80.0.ssi.01.J1_ENC-scalemax 180  
+
 
 
 setp hm2_7i80.0.ssi.03.frequency-khz 250  
@@ -52,7 +52,7 @@ net j0-pos-enc       =>  pid.x.feedback
 net x-output        <=  pid.x.output
 
 
-net j0-pos-enc  hm2_7i80.0.ssi.00.ENC_X.position
+
 
 setp hm2_7i80.0.stepgen.00.dirsetup        [JOINT_0]DIRSETUP
 setp hm2_7i80.0.stepgen.00.dirhold         [JOINT_0]DIRHOLD
@@ -97,7 +97,7 @@ net j1-pos-enc     =>  pid.y.feedback
 net y-output        <=  pid.y.output
 
 
-net j1-pos-enc  hm2_7i80.0.ssi.01.J1_ENC
+
 #net J1pos hm2_[HOSTMOT2](BOARD).0.stepgen.01.position-cmd <= joint.1.motor-pos-cmd
 setp hm2_7i80.0.stepgen.01.dirsetup        [JOINT_1]DIRSETUP
 setp hm2_7i80.0.stepgen.01.dirhold         [JOINT_1]DIRHOLD
