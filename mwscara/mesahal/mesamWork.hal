@@ -12,7 +12,7 @@ setp   hm2_7i80.0.watchdog.timeout_ns 20000000
 
 setp hm2_7i80.0.dpll.01.timer-us -150
 setp hm2_7i80.0.dpll.02.timer-us -250
-
+setp hm2_7i80.0.dpll.03.timer-us -400
 setp hm2_7i80.0.stepgen.timer-number 1
 
 setp hm2_7i80.0.packet-read-timeout 90
