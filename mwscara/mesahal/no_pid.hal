@@ -4,14 +4,14 @@ addf sum2.0 servo-thread
 
 addf ddt.0 servo-thread
 addf ddt.1 servo-thread
-setp hm2_7i80.0.ssi.00.frequency-khz  500
+setp hm2_7i80.0.ssi.00.frequency-khz  175
 setp hm2_7i80.0.ssi.00.timer-number 2
-# setp hm2_7i80.0.ssi.00.ENC_ZH.counts-per-rev 4095
-# setp hm2_7i80.0.ssi.00.ENC_ZH.scale -32.25
+# setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4095
+# setp hm2_7i80.0.ssi.00.ENC_X.scale -32.25
 
-setp hm2_7i80.0.ssi.00.ENC_ZH.counts-per-rev 8192
-setp hm2_7i80.0.ssi.00.ENC_ZH.scale 32.935
-net x-pos-enc  hm2_7i80.0.ssi.00.ENC_ZH.position
+setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 8192
+setp hm2_7i80.0.ssi.00.ENC_X.scale 32.935
+net x-pos-enc  hm2_7i80.0.ssi.00.ENC_X.position
 
 
 
