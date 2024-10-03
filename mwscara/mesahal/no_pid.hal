@@ -53,7 +53,7 @@ net j0-pos-enc       =>  pid.x.feedback
 net x-output        <=  pid.x.output
 
 
-net j0-pos-enc  hm2_7i80.0.ssi.00.ENC_X
+net j0-pos-enc  hm2_7i80.0.ssi.00.ENC_X.position
 
 setp hm2_7i80.0.stepgen.00.dirsetup        [JOINT_0]DIRSETUP
 setp hm2_7i80.0.stepgen.00.dirhold         [JOINT_0]DIRHOLD
