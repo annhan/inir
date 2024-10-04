@@ -4,17 +4,18 @@ addf sum2.0 servo-thread
 
 addf ddt.0 servo-thread
 addf ddt.1 servo-thread
-setp hm2_7i80.0.ssi.01.frequency-khz  500
-setp hm2_7i80.0.ssi.01.timer-number 3
-setp hm2_7i80.0.ssi.01.ENC_X.counts-per-rev 4096
-setp hm2_7i80.0.ssi.01.ENC_X.scale 32.935
+setp hm2_7i80.0.ssi.00.frequency-khz  500
+setp hm2_7i80.0.ssi.00.timer-number 3
+setp hm2_7i80.0.ssi.00.ENC_X.counts-per-rev 4096
+setp hm2_7i80.0.ssi.00.ENC_X.scale 32.935
 
-setp hm2_7i80.0.ssi.00.frequency-khz 250  
-setp hm2_7i80.0.ssi.00.timer-number 2
-setp hm2_7i80.0.ssi.00.J1_ENC-scalemax 180  
+setp hm2_7i80.0.ssi.01.frequency-khz 250  
+setp hm2_7i80.0.ssi.01.timer-number 2
+setp hm2_7i80.0.ssi.01.J1_ENC-scalemax 180  
 
-net j0-pos-enc  hm2_7i80.0.ssi.00.J1_ENC
-net j1-pos-enc  hm2_7i80.0.ssi.01.ENC_X.position
+
+net j0-pos-enc  hm2_7i80.0.ssi.00.ENC_X.position
+net j1-pos-enc  hm2_7i80.0.ssi.01.J1_ENC
 
 setp hm2_7i80.0.ssi.02.frequency-khz 250  
 setp hm2_7i80.0.ssi.02.timer-number 2
