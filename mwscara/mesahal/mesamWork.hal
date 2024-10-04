@@ -2,7 +2,7 @@ loadrt [KINS]KINEMATICS
 loadrt [EMCMOT]EMCMOT   servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[KINS]JOINTS  num_dio=8 num_aio=4
 loadrt hostmot2
 
-loadrt hm2_eth board_ip="10.10.10.10" config=" num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_0=ENC_X%23meMOV%1f ssi_chan_1=J1_ENC%13s ssi_chan_2=J2_ENC%13s ssi_chan_3=J3_ENC%13s  ssi_chan_4=J4_ENC%13s enable_raw"
+loadrt hm2_eth board_ip="10.10.10.10" config=" num_encoders=0 num_pwmgens=0 num_rcpwmgens=0 num_stepgens=6 ssi_chan_0=ENC_X%22meMOV%1fMOV1%1f ssi_chan_1=J1_ENC%13s ssi_chan_2=J2_ENC%13s ssi_chan_3=J3_ENC%13s  ssi_chan_4=J4_ENC%13s enable_raw"
 loadrt pid names=pid.x,pid.y,pid.z,pid.c,pid.a
 # ENC_ZH%24meMOV%1f
 # loadrt orient count=1  
@@ -12,7 +12,7 @@ setp   hm2_7i80.0.watchdog.timeout_ns 20000000
 
 setp hm2_7i80.0.dpll.01.timer-us -150
 setp hm2_7i80.0.dpll.02.timer-us -250
-setp hm2_7i80.0.dpll.03.timer-us -400
+setp hm2_7i80.0.dpll.03.timer-us -500
 setp hm2_7i80.0.stepgen.timer-number 1
 
 setp hm2_7i80.0.packet-read-timeout 90
