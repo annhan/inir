@@ -7,7 +7,10 @@ addf ddt.1 servo-thread
 setp hm2_7i80.0.ssi.01.frequency-khz  500
 setp hm2_7i80.0.ssi.01.timer-number 3
 setp hm2_7i80.0.ssi.01.ENC_X.counts-per-rev 8192
-setp hm2_7i80.0.ssi.01.ENC_X.scale 325
+setp hm2_7i80.0.ssi.01.ENC_X.scale 465.878
+# 28 rang * 3.14 = 87.92 / 5 = 17.584 => 8192 / 17.584 = 465.878
+
+
 
 setp hm2_7i80.0.ssi.00.frequency-khz 250  
 setp hm2_7i80.0.ssi.00.timer-number 2
