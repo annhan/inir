@@ -6,8 +6,8 @@ addf ddt.0 servo-thread
 addf ddt.1 servo-thread
 setp hm2_7i80.0.ssi.01.frequency-khz  500
 setp hm2_7i80.0.ssi.01.timer-number 3
-setp hm2_7i80.0.ssi.01.ENC_X.counts-per-rev 4096
-setp hm2_7i80.0.ssi.01.ENC_X.scale 32.935
+setp hm2_7i80.0.ssi.01.ENC_X.counts-per-rev 8192
+setp hm2_7i80.0.ssi.01.ENC_X.scale 915
 
 setp hm2_7i80.0.ssi.00.frequency-khz 250  
 setp hm2_7i80.0.ssi.00.timer-number 2
